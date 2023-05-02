@@ -1,5 +1,5 @@
 const express = require('express');
-const mdbConn = require('./mariaDBConn.js')
+const mdbConn = require('./db/mariaDBConn.js')
 const app = express();
 
 const server = app.listen(3000, () =>{

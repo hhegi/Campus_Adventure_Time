@@ -14,7 +14,7 @@ class WebviewScreen extends StatelessWidget {
       },
       key: webviewKey,
       initialUrlRequest:
-          URLRequest(url: Uri.parse("http://169.254.207.246:3000/")),
+          URLRequest(url: Uri.parse("http://172.20.10.6:3000/")),
     );
   }
 }

@@ -1,6 +1,5 @@
 const mariadb = require('mariadb');
 const vals = require('./config/consts.js');
-
 const mysql = require('mysql2/promise');
 
 async function createUserTable() {
@@ -47,9 +46,15 @@ async function createCourseTable() {
       CREATE TABLE course (
         idx INT AUTO_INCREMENT PRIMARY KEY,
         course_name VARCHAR(50) NOT NULL,
-        course_spots TEXT NOT NULL,
         course_description TEXT
       )
+    `);
+    await connection.query(`
+    INSERT INTO course (course_name)
+VALUES 
+  ('A'),
+  ('B'),
+  ('C');
     `);
     console.log('course table created successfully');
   } catch (err) {
@@ -80,6 +85,24 @@ async function createSpotTable() {
         spot_description TEXT,
         FOREIGN KEY (course_idx) REFERENCES course(idx) ON UPDATE CASCADE ON DELETE CASCADE
       )
+    `);
+    await connection.query(`
+    INSERT INTO spot (course_idx, spot_name, spot_coordinate, spot_image, spot_description) 
+VALUES
+    ('1', '성모상', POINT(35.9105, 128.8081), '/resources/images/dcu.png', ''),
+    ('1', '대가대조형물', POINT(35.9103, 128.8083), '/resources/images/dcu.png', ''),
+    ('1', '김종복미술관', POINT(35.909, 128.8075), '/resources/images/dcu.png', ''),
+    ('1', '조각공원', POINT(35.9105, 128.8053), '/resources/images/sculpturePark.png', ''),
+    ('2', '100주년 기념광장', POINT(35.9108, 128.8101), '/resources/images/dcu.png', ''),
+    ('2', '잔디광장', POINT(35.9122, 128.8099), '/resources/images/dcu.png', ''),
+    ('2', '전석재 몬시뇰 동상', POINT(35.9105, 128.8114), '/resources/images/seokjae.png', ''),
+    ('2', '박물관', POINT(35.9102, 128.8115), '/resources/images/dcu.png', ''),
+    ('2', '희망의 예수상', POINT(35.9095, 128.8098), '/resources/images/jesusStatue.png', ''),
+    ('3', '치유광장', POINT(35.9115, 128.8089), '/resources/images/dcu.png', ''),
+    ('3', '체리로드', POINT(35.912, 128.8089), '/resources/images/dcu.png', ''),
+    ('3', '은행나무길', POINT(35.9138, 128.8084), '/resources/images/dcu.png', ''),
+    ('3', '스트로마톨라이트', POINT(35.9148, 128.8083), '/resources/images/dcu.png', ''),
+    ('3', '안중근 의사 동상', POINT(35.9126, 128.8066), '/resources/images/junggeun.png', '');
     `);
     console.log('spot table created successfully');
   } catch (err) {
@@ -120,6 +143,7 @@ async function createProgressTable() {
     connection.end();
   }
 }
+
 async function createReviewTable() {
   const connection = await mysql.createConnection({
     host: vals.DBHost,
@@ -151,11 +175,11 @@ async function createReviewTable() {
   }
 }
 
-createUserTable();
-createCourseTable();
+// createUserTable();
+// createCourseTable();
 createSpotTable();
-createProgressTable();
-createReviewTable();
+// createProgressTable();
+// createReviewTable();
 
 // module.exports = {
 //     getUserList: GetUserList

@@ -13,3 +13,9 @@ app.engine('html', require('ejs').renderFile);
 app.get('/', function(req, res) {
     res.render('index.html');
 })
+
+const loginModule = require('./modules/login')(app);
+const withdrawalModule = require('./modules/withdrawal')(app);
+const progressModule = require('./modules/myProgress')(app);
+const myReviewModule = require('./modules/myReviews')(app);
+const deleteReviewModule = require('./modules/deleteReview')(app);

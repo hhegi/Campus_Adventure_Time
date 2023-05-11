@@ -21,7 +21,7 @@ class MainViewModel {
 
   MainViewModel(this._socilaLogin);
 
-  Future login() async {
+  Future<bool> login() async {
     isLogined = await _socilaLogin.login();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (isLogined) {
@@ -38,9 +38,11 @@ class MainViewModel {
       prefs.setString('user_profile_image_url', userProfileImage);
       prefs.setString('user_email', userEmail);
 
-      String isNewMember = await requestLogin(
+      bool ret = await requestLogin(
           userNickname.toString(), userEmail.toString(), userKakaoId);
+      return ret;
     }
+    return false;
   }
 
   Future logout() async {
@@ -59,7 +61,7 @@ class MainViewModel {
     user = null;
   }
 
-  Future<String> requestLogin(
+  Future<bool> requestLogin(
       String user_nickname, String user_email, String userKakaoId) async {
     try {
       Map<String, String> body = {
@@ -78,21 +80,18 @@ class MainViewModel {
       if (response.statusCode == 200) {
         // Success
         final jsonResponse = json.decode(response.body);
-        if (jsonResponse.isNew) {
-          return "1";
-        } else {
-          return "0";
-        }
+        loggerNoStack.w('login response', jsonResponse);
         //loggerNoStack.w(jsonResponse);
+        return true;
       } else {
         // Failure
         loggerNoStack.w('Request failed with status: ${response.statusCode}.');
-        return "error";
+        return false;
       }
     } catch (e) {
       // Exception
       loggerNoStack.w('Exception: $e');
-      return "error";
+      return false;
     }
   }
 
@@ -117,6 +116,106 @@ class MainViewModel {
     } else {
       loggerNoStack.w("accessToken is null!");
       return "";
+    }
+  }
+
+  Future<List<dynamic>> getMyProgress(userKakaoId) async {
+    try {
+      if (userKakaoId.toString().isEmpty) {
+        loggerNoStack.w('UserKakaoId is null');
+        return [{}];
+      }
+      Map<String, String> body = {'user_kakao_id': userKakaoId};
+      loggerNoStack.w('reqBody  ', body);
+      Map<String, String> headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      };
+      String url = 'http://192.168.0.20:3000/myProgress';
+      http.Response response =
+          await http.post(Uri.parse(url), headers: headers, body: body);
+
+      if (response.statusCode == 200) {
+        // Success
+        final jsonResponse = json.decode(response.body);
+        loggerNoStack.w('myCompletedSpots', jsonResponse);
+        return jsonResponse;
+      } else {
+        // Failure
+        loggerNoStack.w('Request failed with status: ${response.statusCode}.');
+        return [{}];
+      }
+    } catch (e) {
+      // Exception
+      loggerNoStack.w('Exception: $e');
+      return [{}];
+    }
+  }
+
+  Future<List<dynamic>> getMyReviews(userKakaoId) async {
+    try {
+      if (userKakaoId.toString().isEmpty) {
+        loggerNoStack.w('UserKakaoId is null');
+        return [{}];
+      }
+      Map<String, String> body = {'user_kakao_id': userKakaoId};
+      loggerNoStack.w('reqBody  ', body);
+      Map<String, String> headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      };
+      String url = 'http://192.168.0.20:3000/myReviews';
+      http.Response response =
+          await http.post(Uri.parse(url), headers: headers, body: body);
+
+      if (response.statusCode == 200) {
+        // Success
+        final jsonResponse = json.decode(response.body);
+        loggerNoStack.w('myReviews', jsonResponse);
+        return jsonResponse;
+      } else {
+        // Failure
+        loggerNoStack.w('Request failed with status: ${response.statusCode}.');
+        return [{}];
+      }
+    } catch (e) {
+      // Exception
+      loggerNoStack.w('Exception: $e');
+      return [{}];
+    }
+  }
+
+  Future<bool> deleteReview(userKakaoId, accessToken, reviewIdx) async {
+    try {
+      if (userKakaoId.toString().isEmpty && accessToken.toString().isEmpty) {
+        loggerNoStack.w('UserKakaoId or accessToken is null');
+        return false;
+      }
+      Map<String, String> body = {
+        'user_kakao_id': userKakaoId,
+        'user_access_token': accessToken,
+        'review_idx': reviewIdx
+      };
+      loggerNoStack.w('reqBody  ', body);
+      Map<String, String> headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      };
+      String url = 'http://192.168.0.20:3000/deleteReview';
+      http.Response response =
+          await http.post(Uri.parse(url), headers: headers, body: body);
+
+      if (response.statusCode == 200) {
+        // Success
+        final jsonResponse = json.decode(response.body);
+        loggerNoStack.w('deleteReview response', jsonResponse);
+        return true;
+      } else {
+        // Failure
+        loggerNoStack.w('Request failed with status: ${response.statusCode}.');
+        return false;
+      }
+    } catch (e) {
+      // Exception
+      loggerNoStack.w('Exception: $e');
+      return false;
     }
   }
 }

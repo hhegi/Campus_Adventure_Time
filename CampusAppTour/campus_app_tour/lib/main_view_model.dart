@@ -37,7 +37,6 @@ class MainViewModel {
       prefs.setString('user_nickname', userNickname);
       prefs.setString('user_profile_image_url', userProfileImage);
       prefs.setString('user_email', userEmail);
-
       bool ret = await requestLogin(
           userNickname.toString(), userEmail.toString(), userKakaoId);
       return ret;
@@ -73,7 +72,7 @@ class MainViewModel {
       Map<String, String> headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
       };
-      String url = 'http://192.168.0.20:3000/login';
+      String url = 'http://10.32.7.163:3000/login';
       http.Response response =
           await http.post(Uri.parse(url), headers: headers, body: body);
 
@@ -130,7 +129,7 @@ class MainViewModel {
       Map<String, String> headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
       };
-      String url = 'http://192.168.0.20:3000/myProgress';
+      String url = 'http://10.32.7.163:3000/myProgress';
       http.Response response =
           await http.post(Uri.parse(url), headers: headers, body: body);
 
@@ -162,7 +161,7 @@ class MainViewModel {
       Map<String, String> headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
       };
-      String url = 'http://192.168.0.20:3000/myReviews';
+      String url = 'http://10.32.7.163:3000/myReviews';
       http.Response response =
           await http.post(Uri.parse(url), headers: headers, body: body);
 
@@ -198,7 +197,43 @@ class MainViewModel {
       Map<String, String> headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
       };
-      String url = 'http://192.168.0.20:3000/deleteReview';
+      String url = 'http://10.32.7.163:3000/deleteReview';
+      http.Response response =
+          await http.post(Uri.parse(url), headers: headers, body: body);
+
+      if (response.statusCode == 200) {
+        // Success
+        final jsonResponse = json.decode(response.body);
+        loggerNoStack.w('deleteReview response', jsonResponse);
+        return true;
+      } else {
+        // Failure
+        loggerNoStack.w('Request failed with status: ${response.statusCode}.');
+        return false;
+      }
+    } catch (e) {
+      // Exception
+      loggerNoStack.w('Exception: $e');
+      return false;
+    }
+  }
+
+  Future<bool> spotComplete(userKakaoId, accessToken, spotIdx) async {
+    try {
+      if (userKakaoId.toString().isEmpty && accessToken.toString().isEmpty) {
+        loggerNoStack.w('UserKakaoId or accessToken is null');
+        return false;
+      }
+      Map<String, String> body = {
+        'user_kakao_id': userKakaoId,
+        'user_access_token': accessToken,
+        'spot_idx': spotIdx
+      };
+      loggerNoStack.w('reqBody  ', body);
+      Map<String, String> headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      };
+      String url = 'http://10.32.7.163:3000/spotComplete';
       http.Response response =
           await http.post(Uri.parse(url), headers: headers, body: body);
 

@@ -19,6 +19,8 @@ app.get('/', function(req, res) {
 const loginModule = require('./modules/login')(app);
 const withdrawalModule = require('./modules/withdrawal')(app);
 const progressModule = require('./modules/myProgress')(app);
+const allProgressModule = require('./modules/myCourseProgress')(app);
 const myReviewModule = require('./modules/myReviews')(app);
 const deleteReviewModule = require('./modules/deleteReview')(app);
 const spotCompleteModule = require('./modules/spotComplete')(app);
+const myCompletedCourseModule = require('./modules/myCompletedCourse')(app);

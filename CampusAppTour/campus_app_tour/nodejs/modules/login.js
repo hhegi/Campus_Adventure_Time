@@ -31,11 +31,11 @@ module.exports = (app) => {
             console.log("신규회원, 가입진행");
             const joinQuery = `INSERT INTO user (user_id, user_nickname, user_email) VALUES (?, ?, ?);`;
             await conn.execute(joinQuery, [userKakaoId, userNickname, userEmail]);
-            res.status(200).send('가입된 회원, 로그인 진행');
+            res.status(200).send({'isNewMember': '신규회원, 회원가입 진행'}); res.end();
         }
         else {
             console.log("가입된 회원, 로그인 진행");
-            res.status(200).send('가입된 회원, 로그인 진행');
+            res.status(200).send({'isNewMember': '가입된 회원, 로그인 진행'}); res.end();
         }
 
     });

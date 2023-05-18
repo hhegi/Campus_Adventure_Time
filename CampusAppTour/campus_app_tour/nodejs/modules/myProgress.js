@@ -18,6 +18,7 @@ module.exports = (app) => {
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
     app.post('/myProgress', async (req, res) => {
+        console.log('getMyProgress Called');
         const conn = await pool.getConnection(vals);
         let userKakaoId = req.body.user_kakao_id;
         console.log('myProgress: userKakaoId : ', userKakaoId);

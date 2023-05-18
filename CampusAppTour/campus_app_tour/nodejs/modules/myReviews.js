@@ -20,17 +20,27 @@ module.exports = (app) => {
     app.post('/myReviews', async (req, res) => {
         const conn = await pool.getConnection(vals);
         let userKakaoId = req.body.user_kakao_id;
+        let courseIdx = req.body.course_idx;
         console.log('myReviews: userKakaoId : ', userKakaoId);
+        console.log('myReviews: courseIdx ', courseIdx);
         const findUserQuery = `SELECT * FROM user WHERE user_id = ?`
         const user = await conn.execute(findUserQuery, [userKakaoId]);
         const userIdx = user[0].at(0).idx;
-        const findMyReviews = `SELECT * FROM review WHERE user_idx = ?`
-        const myReviews = await conn.execute(findMyReviews, [userIdx]);
+        let myReviews = [];
+        if (courseIdx == 0) {
+            const findMyReviewsQuery = `SELECT * FROM review WHERE user_idx = ?`
+            myReviews = await conn.execute(findMyReviewsQuery, [userIdx]);
+        }
+        else {
+            const findMyReviewsQuery = `SELECT * FROM review WHERE user_idx = ? AND course_idx = ?`
+            myReviews = await conn.execute(findMyReviewsQuery, [userIdx, courseIdx]);
+        }
+
         if (myReviews[0].lenght == 0) res.end({});
         else {
             let reviewArr = [];
 
-            for(let review of myReviews[0]){
+            for (let review of myReviews[0]) {
                 reviewArr.push(review);
             }
 

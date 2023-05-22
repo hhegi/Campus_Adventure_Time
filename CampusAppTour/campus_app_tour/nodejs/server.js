@@ -1,8 +1,11 @@
 const express = require('express');
 const mdbConn = require('./db/mariaDBConn.js')
 const app = express();
+const cors = require('cors');
 
-const server = app.listen(3000, '192.168.0.20', () =>{
+app.use(cors());
+
+const server = app.listen(3000, () => {
     console.log('server on port 3000');
 });
 
@@ -16,6 +19,10 @@ app.get('/', function(req, res) {
     console.log("adasds");
     res.render('index.html');
 })
+
+// spot 목록 출력
+const courseRouter = require('./modules/showSpots');
+app.use('/course', courseRouter);
 
 const loginModule = require('./modules/login')(app);
 const withdrawalModule = require('./modules/withdrawal')(app);

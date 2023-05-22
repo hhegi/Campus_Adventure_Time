@@ -2,7 +2,7 @@ const express = require('express');
 const mdbConn = require('./db/mariaDBConn.js')
 const app = express();
 
-const server = app.listen(3000, '192.168.137.1', () =>{
+const server = app.listen(3000, '192.168.0.20', () =>{
     console.log('server on port 3000');
 });
 

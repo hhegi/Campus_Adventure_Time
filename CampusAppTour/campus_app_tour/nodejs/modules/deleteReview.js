@@ -28,11 +28,11 @@ module.exports = (app) => {
 
         const userId = await getUserKakaoId(userAccessToken);
 
-        if (userId.toString() != userKakaoId.toString()) { res.status(500).send('delete review failed'); res.end(); }
+        if (userId.toString() != userKakaoId.toString()) { res.status(500).send({'result':'delete review failed'}); res.end(); }
         else {
             const deleteReviewQuery = `DELETE FROM review WHERE idx = ?`;
             await conn.execute(deleteReviewQuery, [reviewIdx]);
-            res.status(200).send('delete review succeded');
+            res.status(200).send({'resutlt':'delete review succeded'}); res.end();
         }
         res.end();
     });

@@ -1,7 +1,7 @@
 module.exports = {
     DBHost: 'localhost',
-    DBPort: '3307',
+    DBPort: '3306',
     DBUser: 'root',
-    DBPass: 'abcd1234',
+    DBPass: '1234',
     connectionLimit: 5
 }

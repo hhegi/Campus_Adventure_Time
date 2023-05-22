@@ -18,6 +18,7 @@ class MainViewModel {
   final KakaoSocialLogin _socilaLogin;
   bool isLogined = false;
   User? user;
+  String serverIdAddress = "192.168.0.20";
 
   MainViewModel(this._socilaLogin);
 
@@ -74,7 +75,7 @@ class MainViewModel {
       Map<String, String> headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
       };
-      String url = 'http://192.168.137.1:3000/login';
+      String url = "http://" + serverIdAddress + ":3000/login";
       http.Response response =
           await http.post(Uri.parse(url), headers: headers, body: body);
 
@@ -131,7 +132,7 @@ class MainViewModel {
       Map<String, String> headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
       };
-      String url = 'http://192.168.137.1:3000/myProgress';
+      String url = "http://" + serverIdAddress + ":3000/myProgress";
       http.Response response =
           await http.post(Uri.parse(url), headers: headers, body: body);
 
@@ -166,7 +167,7 @@ class MainViewModel {
       Map<String, String> headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
       };
-      String url = 'http://192.168.137.1:3000/myReviews';
+      String url = "http://" + serverIdAddress + ":3000/myReviews";
       http.Response response =
           await http.post(Uri.parse(url), headers: headers, body: body);
 
@@ -202,7 +203,7 @@ class MainViewModel {
       Map<String, String> headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
       };
-      String url = 'http://192.168.137.1:3000/deleteReview';
+      String url = "http://" + serverIdAddress + ":3000/deleteReview";
       http.Response response =
           await http.post(Uri.parse(url), headers: headers, body: body);
 
@@ -240,7 +241,7 @@ class MainViewModel {
       Map<String, String> headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
       };
-      String url = 'http://192.168.137.1:3000/editReview';
+      String url = "http://" + serverIdAddress + ":3000/editReview";
       http.Response response =
           await http.post(Uri.parse(url), headers: headers, body: body);
 
@@ -276,7 +277,7 @@ class MainViewModel {
       Map<String, String> headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
       };
-      String url = 'http://192.168.137.1:3000/spotComplete';
+      String url = "http://" + serverIdAddress + ":3000/spotComplete";
       http.Response response =
           await http.post(Uri.parse(url), headers: headers, body: body);
 
@@ -308,7 +309,7 @@ class MainViewModel {
       Map<String, String> headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
       };
-      String url = 'http://192.168.137.1:3000/myCompletedCourse';
+      String url = "http://" + serverIdAddress + ":3000/myCompletedCourse";
       http.Response response =
           await http.post(Uri.parse(url), headers: headers, body: body);
 
@@ -343,7 +344,7 @@ class MainViewModel {
       Map<String, String> headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
       };
-      String url = 'http://192.168.137.1:3000/myCourseProgress';
+      String url = "http://" + serverIdAddress + ":3000/myCourseProgress";
       http.Response response =
           await http.post(Uri.parse(url), headers: headers, body: body);
 
@@ -379,7 +380,7 @@ class MainViewModel {
       Map<String, String> headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
       };
-      String url = 'http://192.168.137.1:3000/allCourses';
+      String url = "http://" + serverIdAddress + ":3000/allCourses";
       http.Response response =
           await http.post(Uri.parse(url), headers: headers, body: body);
 

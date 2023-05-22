@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class KakaoSocialLogin implements SocialLogin {
+  String serverIdAddress = "192.168.0.20";
   var logger = Logger(
     printer: PrettyPrinter(),
   );
@@ -69,7 +70,7 @@ class KakaoSocialLogin implements SocialLogin {
       Map<String, String> headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
       };
-      String url = 'http://192.168.0.20:3000/withdrawal';
+      String url = "http://" + serverIdAddress + ":3000/withdrawal";
       http.Response response =
           await http.post(Uri.parse(url), headers: headers, body: body);
       UserApi.instance.unlink();
